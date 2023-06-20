@@ -9,8 +9,10 @@
         $pdo = new PDO("sqlite:$database");
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        
-        $stmt = $pdo->query("UPDATE hra SET popis = ' $descInput ' WHERE jmeno = ' $nameInput '");
+        $stmt = $pdo->prepare("UPDATE hra SET popis = :descInput WHERE jmeno = :nameInput");
+        $stmt->bindParam(':nameInput', $nameInput);
+        $stmt->bindParam(':descInput', $descInput);
+        $stmt->execute();
 
         header("Location: pva-seminarka.php");
         exit();

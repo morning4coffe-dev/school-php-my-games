@@ -46,16 +46,16 @@
                             echo '<div class="col">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <h5 class="card-title">' . $row['jmeno'] . '</h5>
-                                    <p class="card-text">' . $row['popis'] . '</p>
+                                    <h5 class="card-title">'.$row['jmeno'].'</h5>
+                                    <p class="card-text">'.$row['popis'].'</p>
                                 </div>
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-between">
                                         <form action="pva-delete.php" method="post">
-                                            <input type="hidden" name="itemId" value="' . $row['jmeno'] . '">
+                                            <input type="hidden" name="itemId" value="'.$row['jmeno'].'">
                                             <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                                         </form>
-                                            <button type="submit" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever=" ' . $row['jmeno'] . ' ">Edit</button>
+                                            <button type="submit" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateModal" data-bs-whatever="' . $row['jmeno'] . '">Edit</button>
                                     </div>
                                 </div>
                             </div>
@@ -128,8 +128,9 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <div class="modal-body">
                 <form name="update-form" class="input-group" method="post">
-                    <input type="text" class="form-control" placeholder="Jméno" disabled id="editNameInput"
-                        name="editNameInput"></input>
+                    <input type="text" class="form-control" placeholder="Jméno" disabled id="labelNameInput"
+                        name="labelNameInput"></input>
+                    <input type="hidden" id="editNameInput" name="editNameInput"></input>
                     <input type="text" class="form-control" placeholder="Popis" id="editDescInput"
                         name="editDescInput"></input>
                 </form>
@@ -168,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sendMessageButtons.forEach(function(button) {
         button.addEventListener('click', function() {
             const recipient = button.getAttribute('data-bs-whatever');
+            document.getElementById('labelNameInput').value = recipient;
             document.getElementById('editNameInput').value = recipient;
         });
     });
