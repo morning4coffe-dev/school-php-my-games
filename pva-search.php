@@ -49,10 +49,6 @@ try {
                         <input type="hidden" name="itemId" value="' . $row['jmeno'] . '">
                         <button type="submit" class="btn btn-danger btn-sm">Remove</button>
                     </form>
-                    <form action="delete-item.php" method="post">
-                        <input type="hidden" name="itemId" value="' . $row['jmeno'] . '">
-                        <button type="submit" class="btn btn-outline-primary btn-sm">Edit</button>
-                    </form>
                 </div>
             </div>
         </div>

@@ -78,7 +78,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add game</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -89,7 +89,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="send-message-btn">Send message</button>
+                <button type="button" class="btn btn-primary" id="send-message-btn">Confirm</button>
             </div>
         </div>
     </div>
@@ -123,18 +123,20 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="updateModalLabel">Update</h1>
+                <h1 class="modal-title fs-5" id="updateModalLabel">Update game</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form name="message-form" action="pva-send.php" class="input-group" method="post">
-                    <input type="text" class="form-control" placeholder="Jméno" id="editNameInput"></input>
-                    <input type="text" class="form-control" placeholder="Popis" id="editDescInput"></input>
+                <form name="update-form" class="input-group" method="post">
+                    <input type="text" class="form-control" placeholder="Jméno" disabled id="editNameInput"
+                        name="editNameInput"></input>
+                    <input type="text" class="form-control" placeholder="Popis" id="editDescInput"
+                        name="editDescInput"></input>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="update-message-btn">Send message</button>
+                <button type="button" class="btn btn-primary" id="update-message-btn">Confirm</button>
             </div>
         </div>
     </div>
@@ -142,9 +144,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var sendMessageButton = document.getElementById('update-message-btn');
-    sendMessageButton.addEventListener('click', function() {
-        var form = document.forms['message-form'];
+    var updateMessageButton = document.getElementById('update-message-btn');
+    updateMessageButton.addEventListener('click', function() {
+        var form = document.forms['update-form'];
         var formData = new FormData(form);
 
         var xhr = new XMLHttpRequest();
@@ -161,39 +163,12 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         xhr.send(formData);
     });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
     var sendMessageButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
     sendMessageButtons.forEach(function(button) {
         button.addEventListener('click', function() {
             const recipient = button.getAttribute('data-bs-whatever');
-
-            // Send the recipient value to the server-side PHP script using AJAX
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'pva-fetch.php');
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    // Request was successful, process the response here
-                    var response = JSON.parse(xhr.responseText);
-                    console.log(response);
-
-                    // Assuming the response contains 'name' and 'message' properties
-                    if (response.hasOwnProperty('jmeno')) {
-                        document.getElementById('editNameInput').value = response.name;
-                    }
-                    if (response.hasOwnProperty('popis')) {
-                        document.getElementById('editDescInput').value = response.message;
-                    }
-
-                } else {
-                    // Request failed, handle the error here
-                    console.error('Request failed. Status:', xhr.status);
-                }
-            };
-            var data = 'recipient=' + encodeURIComponent(recipient);
-            xhr.send(data);
+            document.getElementById('editNameInput').value = recipient;
         });
     });
 });
